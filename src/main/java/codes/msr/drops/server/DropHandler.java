@@ -8,6 +8,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -27,17 +28,38 @@ public class DropHandler extends WorldSavedData {
             if (world.provider.getDimension() == 0) {
                 int time = (int) (world.getWorldTime() % 24000);
                 if (time == 18000) {
-//                    System.out.println("yeet " + dayCounter);
                     dayCounter++;
 
                     if (dayCounter >= 7) { // TODO: config dayCounter
-                        // TODO: spawnDrop();
+                        WorldBorder bdr = world.getWorldBorder();
 
-                        world.setBlockState(new BlockPos(0, 100, 0), Blocks.BEDROCK.getDefaultState());
+                        int posX = (int) bdr.getCenterX() + world.rand.nextInt((int) bdr.getDiameter() / 2);
+                        int coin = world.rand.nextInt(2);
+                        if (coin == 0) {
+                            posX *= -1;
+                        }
+
+                        int posZ = (int) bdr.getCenterZ() + world.rand.nextInt((int) bdr.getDiameter() / 2);
+                        coin = world.rand.nextInt(2);
+                        if (coin == 0) {
+                            posZ *= -1;
+                        }
+
+                        BlockPos pos = new BlockPos(posX, world.getActualHeight() - 1, posZ);
+
+                        while (world.isAirBlock(pos.add(0, -1, 0))) {
+                            pos = pos.add(0, -1, 0);
+                        }
+
+                        System.out.println(pos);
+
+                        world.setBlockState(pos, Blocks.BEDROCK.getDefaultState());
 
                         for (Object object : world.playerEntities) {
                             EntityPlayer player = (EntityPlayer) object;
-                            player.sendStatusMessage(new TextComponentTranslation("text.drops.spawning").setStyle(new Style().setColor(TextFormatting.RED)), true);
+                            player.sendStatusMessage(new TextComponentTranslation("text.drops.spawning")
+                                    .appendText(" (" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")")
+                                    .setStyle(new Style().setColor(TextFormatting.RED)), true);
                         }
 
                         dayCounter = 0;
