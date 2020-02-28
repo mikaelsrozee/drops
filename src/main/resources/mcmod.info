@@ -1,0 +1,16 @@
+[
+{
+  "modid": "drops",
+  "name": "Drops",
+  "description": "A Minecraft mod, allows for "drops" to be spgitawned in the world at a configurable interval containing a configurable set of items.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/mikaelsrozee/drops",
+  "updateUrl": "",
+  "authorList": ["msrcodes"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
