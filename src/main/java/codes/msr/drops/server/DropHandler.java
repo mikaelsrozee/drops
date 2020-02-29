@@ -1,6 +1,6 @@
 package codes.msr.drops.server;
 
-import net.minecraft.block.BlockFalling;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,7 +32,6 @@ public class DropHandler extends WorldSavedData {
 
                 if (time == 13000) {
                     dayCounter++;
-                    System.out.println("day counter is now " + dayCounter);
                     this.markDirty();
                 }
 
@@ -80,8 +79,9 @@ public class DropHandler extends WorldSavedData {
     }
 
     private void spawnDrop(World world, BlockPos pos) {
-        // Spawn block
-        world.setBlockState(pos, Blocks.BEDROCK.getDefaultState());
+        world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), true));
+
+        world.setBlockState(pos, Blocks.CHEST.getDefaultState());
     }
 
     private void alertDrop(World world, BlockPos pos, boolean spawning) {
@@ -99,6 +99,7 @@ public class DropHandler extends WorldSavedData {
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         this.dayCounter = nbt.getInteger("dayCounter");
+
         int x = nbt.getInteger("dropX");
         int y = nbt.getInteger("dropY");
         int z = nbt.getInteger("dropZ");
