@@ -1,5 +1,6 @@
 package codes.msr.drops;
 
+import codes.msr.drops.common.config.ConfigHandler;
 import codes.msr.drops.server.DropEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -12,6 +13,7 @@ public class Drops {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new DropEventHandler());
+        ConfigHandler.loadConfig(event.getSuggestedConfigurationFile());
     }
 
 }

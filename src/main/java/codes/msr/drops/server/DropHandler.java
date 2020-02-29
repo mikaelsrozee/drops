@@ -3,7 +3,10 @@ package codes.msr.drops.server;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -12,6 +15,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
 
 public class DropHandler extends WorldSavedData {
 
@@ -82,6 +88,29 @@ public class DropHandler extends WorldSavedData {
         world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), true));
 
         world.setBlockState(pos, Blocks.CHEST.getDefaultState());
+
+        TileEntityChest chest = (TileEntityChest) world.getTileEntity(pos);
+        assert chest != null;
+        populateDrop(chest);
+    }
+
+    private void populateDrop(@Nonnull TileEntityChest chest) {
+        int min = chest.getSizeInventory() / 5;
+        int max = chest.getSizeInventory() / 3;
+
+        int numItems = min + chest.getWorld().rand.nextInt(max);
+        ArrayList<Item> items = DropLootHandler.getNextItems(numItems);
+
+        for (Item item : items) {
+            boolean in = false;
+            while (!in) {
+                int i = chest.getWorld().rand.nextInt(chest.getSizeInventory() - 1);
+                if (chest.getStackInSlot(i).isEmpty()) {
+                    chest.setInventorySlotContents(i, new ItemStack(item));
+                    in = true;
+                }
+            }
+        }
     }
 
     private void alertDrop(World world, BlockPos pos, boolean spawning) {

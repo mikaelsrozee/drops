@@ -8,6 +8,8 @@ public class DropEventHandler {
 
     @SubscribeEvent
     public void loadWorld(WorldEvent.Load event) {
+        DropLootHandler.load();
+
         if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) {
             DropHandler.INSTANCE = (DropHandler) event.getWorld().getMapStorage().getOrLoadData(DropHandler.class, "Drops");
 
