@@ -59,7 +59,7 @@ public class DropHandler extends WorldSavedData {
                             EntityPlayer player = (EntityPlayer) object;
                             player.sendStatusMessage(new TextComponentTranslation("text.drops.spawning")
                                     .appendText(" (" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")")
-                                    .setStyle(new Style().setColor(TextFormatting.RED)), true);
+                                    .setStyle(new Style().setColor(TextFormatting.GOLD)), false);
                         }
 
                         dayCounter = 0;
