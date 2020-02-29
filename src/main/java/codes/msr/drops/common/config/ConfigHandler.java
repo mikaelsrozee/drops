@@ -39,11 +39,16 @@ public final class ConfigHandler {
                       "If 'minStackSize' is present so must 'maxStackSize'.\n" +
                       "If 'nbtJSON' is present, all other parameters must be present.\n";
         String[] load = config.getStringList("dropContents", "drops", defaultDrop, desc);
+        parse(load);
 
         desc = "Number of days until a drop spawns";
         daysPerDrop = config.getInt("daysPerDrop", "drops", daysPerDrop,0, 100, desc);
 
-        for (String string : load) {
+        config.save();
+    }
+
+    private static void parse(String[] list) {
+        for (String string : list) {
             String[] split = string.split(" ");
 
             if (split.length == 1) { // [id]
@@ -78,8 +83,6 @@ public final class ConfigHandler {
                     dropContents.add(new DropLoot(split[0], Integer.parseInt(split[1]), min, max));
                 }
             }
-
-            config.save();
         }
     }
 }
