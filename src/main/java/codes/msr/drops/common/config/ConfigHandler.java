@@ -10,14 +10,13 @@ public final class ConfigHandler {
 
     public static Configuration config;
     private static String[] defaultDrop = new String[] {
-            // id [rarity] [minStack] [maxStack]
+            // id [rarity] [minStack] [maxStack] [nbt]
             // [optional]
             "minecraft:apple 100",
-            "minecraft:stone 200 16 32",
+            "minecraft:diamond_sword 200 1 1 {display:{Lore:[\"\\\"A legendary weapon\\\"\"]}}",
             "minecraft:saddle 12"
     };
 
-    // <id, rarity>
     public static ArrayList<DropLoot> dropContents = new ArrayList<>();
 
     public static void loadConfig(File configFile) {
@@ -29,13 +28,15 @@ public final class ConfigHandler {
 
     public static void load() {
         String desc = "Possible contents of a drop.\n" +
-                      "Each line should be in the format 'item' 'rarity' 'minStackSize' 'maxStackSize' where:\n" +
+                      "Each line should be in the format 'item' 'rarity' 'minStackSize' 'maxStackSize' 'nbtJSON' where:\n" +
                       "item is the item id (e.g. minecraft:saddle),\n" +
                       "rarity is an integer > 0 (bigger = more common),\n" +
                       "minStackSize is an integer > 0 and < 65 and\n" +
                       "maxStackSize is an integer > 0 and < 65.\n" +
+                      "nbtJSON is a JSON string, in NBT format.\n" +
                       "'item' is the only required parameter.\n" +
-                      "If 'minStackSize' is present so must 'maxStackSize'.\n";
+                      "If 'minStackSize' is present so must 'maxStackSize'.\n" +
+                      "If 'nbtJSON' is present, all other parameters must be present.\n";
         String[] load = config.getStringList("dropContents", "drops", defaultDrop, desc);
 
         for (String string : load) {
@@ -45,7 +46,7 @@ public final class ConfigHandler {
                 dropContents.add(new DropLoot(split[0]));
             } else if (split.length == 2) { // [id] [rarity]
                 dropContents.add(new DropLoot(split[0], Integer.parseInt(split[1])));
-            } else if (split.length == 4) { // [id] [rarity] [minStackSize] [maxStackSize]
+            } else if (split.length >= 4) { // [id] [rarity] [minStackSize] [maxStackSize] [nbt]
                 int min = Integer.parseInt(split[2]);
                 int max = Integer.parseInt(split[3]);
 
@@ -62,7 +63,16 @@ public final class ConfigHandler {
                     throw new Error("Malformed config, " + split[0] + " has min value " + min + " > max value " + max);
                 }
 
-                dropContents.add(new DropLoot(split[0], Integer.parseInt(split[1]), min, max));
+                if (split.length > 4) {
+                    StringBuilder nbt = new StringBuilder();
+                    for (int i = 4; i < split.length; i++) {
+                        nbt.append(split[i]).append(" ");
+                    }
+                    nbt.setLength(nbt.length() - 1);
+                    dropContents.add(new DropLoot(split[0], Integer.parseInt(split[1]), min, max, nbt.toString()));
+                } else {
+                    dropContents.add(new DropLoot(split[0], Integer.parseInt(split[1]), min, max));
+                }
             }
 
             config.save();

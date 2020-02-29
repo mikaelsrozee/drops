@@ -31,7 +31,10 @@ public class DropLootHandler {
             stackSize = loot.getMinStackSize() + random.nextInt(loot.getMaxStackSize() - loot.getMinStackSize());
         }
 
-        return new ItemStack(loot.getItem(), stackSize);
+        ItemStack stack = loot.getItemStack();
+        stack.setCount(stackSize);
+
+        return stack;
     }
 
     public static ArrayList<ItemStack> getNextItems(int amount) {

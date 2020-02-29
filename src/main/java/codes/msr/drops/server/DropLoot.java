@@ -1,13 +1,18 @@
 package codes.msr.drops.server;
 
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
+import java.util.Objects;
 
 public class DropLoot {
 
     private ResourceLocation id;
     private int rarity, minStackSize, maxStackSize;
+    private NBTTagCompound nbt;
 
     public DropLoot(String id) {
         this(id, 1, 1, 1);
@@ -18,6 +23,10 @@ public class DropLoot {
     }
 
     public DropLoot(String id, int rarity, int minStackSize, int maxStackSize) {
+        this(id, rarity, minStackSize, maxStackSize, "");
+    }
+
+    public DropLoot(String id, int rarity, int minStackSize, int maxStackSize, String nbt) {
         String[] split = id.split(":");
         if (split.length != 2) {
             throw new Error("Malformed drop");
@@ -27,10 +36,19 @@ public class DropLoot {
         this.rarity = rarity;
         this.minStackSize = minStackSize;
         this.maxStackSize = maxStackSize;
+
+        try {
+            this.nbt = JsonToNBT.getTagFromJson(nbt);
+        } catch (Exception ignored) {
+            this.nbt = null;
+        }
     }
 
-    public Item getItem() {
-        return ForgeRegistries.ITEMS.getValue(id);
+    public ItemStack getItemStack() {
+        ItemStack ret = new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(id)));
+        ret.setTagCompound(getNbt());
+
+        return ret;
     }
 
     public ResourceLocation getId() {
@@ -47,5 +65,9 @@ public class DropLoot {
 
     public int getMaxStackSize() {
         return maxStackSize;
+    }
+
+    public NBTTagCompound getNbt() {
+        return nbt;
     }
 }
