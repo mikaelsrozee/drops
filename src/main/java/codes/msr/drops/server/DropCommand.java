@@ -16,6 +16,7 @@ import java.util.List;
 public class DropCommand extends CommandBase {
 
     @Override
+    @Nonnull
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
         List<String> suggestions = new ArrayList<>();
 
