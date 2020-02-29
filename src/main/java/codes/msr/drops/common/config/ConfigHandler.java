@@ -18,6 +18,7 @@ public final class ConfigHandler {
     };
 
     public static ArrayList<DropLoot> dropContents = new ArrayList<>();
+    public static int daysPerDrop = 7;
 
     public static void loadConfig(File configFile) {
         config = new Configuration(configFile);
@@ -38,6 +39,9 @@ public final class ConfigHandler {
                       "If 'minStackSize' is present so must 'maxStackSize'.\n" +
                       "If 'nbtJSON' is present, all other parameters must be present.\n";
         String[] load = config.getStringList("dropContents", "drops", defaultDrop, desc);
+
+        desc = "Number of days until a drop spawns";
+        daysPerDrop = config.getInt("daysPerDrop", "drops", daysPerDrop,0, 100, desc);
 
         for (String string : load) {
             String[] split = string.split(" ");

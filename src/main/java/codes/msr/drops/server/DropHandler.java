@@ -1,5 +1,6 @@
 package codes.msr.drops.server;
 
+import codes.msr.drops.common.config.ConfigHandler;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -40,7 +41,7 @@ public class DropHandler extends WorldSavedData {
                     this.markDirty();
                 }
 
-                if (dayCounter >= 7) {  // (will trigger on the 7th night)
+                if (dayCounter >= ConfigHandler.daysPerDrop) {
                     if (time == 13000) {
                         dropPos = findDropPosition(world);
                         alertDrop(world, dropPos, false);
