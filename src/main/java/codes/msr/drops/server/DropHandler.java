@@ -99,14 +99,14 @@ public class DropHandler extends WorldSavedData {
         int max = chest.getSizeInventory() / 3;
 
         int numItems = min + chest.getWorld().rand.nextInt(max);
-        ArrayList<Item> items = DropLootHandler.getNextItems(numItems);
+        ArrayList<ItemStack> items = DropLootHandler.getNextItems(numItems);
 
-        for (Item item : items) {
+        for (ItemStack itemStack : items) {
             boolean in = false;
             while (!in) {
                 int i = chest.getWorld().rand.nextInt(chest.getSizeInventory() - 1);
                 if (chest.getStackInSlot(i).isEmpty()) {
-                    chest.setInventorySlotContents(i, new ItemStack(item));
+                    chest.setInventorySlotContents(i, itemStack);
                     in = true;
                 }
             }

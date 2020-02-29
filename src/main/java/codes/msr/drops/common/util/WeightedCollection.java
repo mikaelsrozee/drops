@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 public class WeightedCollection<E> {
 
-    private NavigableMap<Integer, E> map = new TreeMap<Integer, E>();
+    private NavigableMap<Integer, E> map = new TreeMap<>();
     private int total = 0;
 
     public WeightedCollection() {
