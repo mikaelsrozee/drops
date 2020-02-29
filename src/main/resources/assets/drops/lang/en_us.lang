@@ -1,2 +1,3 @@
 text.drops.spawning=Drop will spawn midnight at
 text.drops.spawningNow=Drop spawned at
+text.drops.forced=A drop will spawn on the next night.

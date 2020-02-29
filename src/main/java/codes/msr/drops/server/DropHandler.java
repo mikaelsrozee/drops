@@ -23,6 +23,7 @@ public class DropHandler extends WorldSavedData {
 
     public static DropHandler INSTANCE;
 
+    boolean forced;
     int dayCounter;
     BlockPos dropPos;
 
@@ -41,8 +42,13 @@ public class DropHandler extends WorldSavedData {
                     this.markDirty();
                 }
 
-                if (dayCounter >= ConfigHandler.daysPerDrop) {
-                    if (time == 13000) {
+                if (dayCounter >= ConfigHandler.daysPerDrop || forced) {
+                    if (forced) {
+                        dropPos = findDropPosition(world);
+                        spawnDrop(world, dropPos);
+                        alertDrop(world, dropPos, true);
+                        forced = false;
+                    } else if (time == 13000) {
                         dropPos = findDropPosition(world);
                         alertDrop(world, dropPos, false);
                     } else if (time == 18000 && dropPos != null) {
@@ -110,6 +116,14 @@ public class DropHandler extends WorldSavedData {
                     in = true;
                 }
             }
+        }
+    }
+
+    public void force(boolean now) {
+        if (now) {
+            forced = true;
+        } else {
+            this.dayCounter = ConfigHandler.daysPerDrop - 1;
         }
     }
 
