@@ -67,24 +67,34 @@ public class DropHandler extends WorldSavedData {
         WorldBorder bdr = world.getWorldBorder();
         int radius = (int) bdr.getDiameter() / 2;
 
-        // Choose X co-ord
-        int posX = (int) bdr.getCenterX() + world.rand.nextInt(radius);
-        int coin = world.rand.nextInt(2);
-        if (coin == 0) {
-            posX *= -1;
-        }
+        int posX, posZ;
+        if (radius == 0) {
+            posX = (int) bdr.getCenterX();
+            posZ = (int) bdr.getCenterZ();
+        } else {
+            // Choose X co-ord
+            posX = (int) bdr.getCenterX() + world.rand.nextInt(radius);
+            int coin = world.rand.nextInt(2);
+            if (coin == 0) {
+                posX *= -1;
+            }
 
-        // Choose Z co-ord
-        int posZ = (int) bdr.getCenterZ() + world.rand.nextInt(radius);
-        coin = world.rand.nextInt(2);
-        if (coin == 0) {
-            posZ *= -1;
+            // Choose Z co-ord
+            posZ = (int) bdr.getCenterZ() + world.rand.nextInt(radius);
+            coin = world.rand.nextInt(2);
+            if (coin == 0) {
+                posZ *= -1;
+            }
         }
 
         // Choose Y co-ord
         BlockPos pos = new BlockPos(posX, world.getActualHeight() - 1, posZ);
         while (world.isAirBlock(pos.add(0, -1, 0))) {
             pos = pos.add(0, -1, 0);
+
+            if (pos.getY() == 0) {
+                pos.add(1, world.getActualHeight() - 1, 0);
+            }
         }
 
         return pos;
