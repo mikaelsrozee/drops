@@ -47,13 +47,13 @@ public class DropCommand extends CommandBase {
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
         if (args.length == 0) {
-            DropHandler.INSTANCE.force(false);
+            DropEventHandler.INSTANCE.force(false);
             sender.sendMessage(new TextComponentTranslation("text.drops.forced"));
         } else if (args.length == 1) {
             String option = args[0];
 
             if (option.equals("now")) {
-                DropHandler.INSTANCE.force(true);
+                DropEventHandler.INSTANCE.force(true);
             } else {
                 throw new WrongUsageException(this.getUsage(sender));
             }

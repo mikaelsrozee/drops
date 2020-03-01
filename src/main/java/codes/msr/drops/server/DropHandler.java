@@ -1,5 +1,6 @@
 package codes.msr.drops.server;
 
+import codes.msr.drops.Dictionary;
 import codes.msr.drops.common.config.ConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -26,14 +27,16 @@ import java.util.ArrayList;
 
 public class DropHandler extends WorldSavedData {
 
-    public static DropHandler INSTANCE;
-
     boolean forced, dropActive;
     int dayCounter;
     BlockPos dropPos;
 
     public DropHandler() {
-        super("Drops");
+        super(Dictionary.MOD_ID + "_data");
+    }
+
+    public DropHandler(String s) {
+        super(s);
     }
 
     public void endWorldTick(TickEvent.WorldTickEvent event) {
