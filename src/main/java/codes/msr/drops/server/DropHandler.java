@@ -126,18 +126,9 @@ public class DropHandler extends WorldSavedData {
             posZ = (int) bdr.getCenterZ();
         } else {
             // Choose X co-ord
-            posX = (int) bdr.getCenterX() + world.rand.nextInt(radius);
-            int coin = world.rand.nextInt(2);
-            if (coin == 0) {
-                posX *= -1;
-            }
-
+            posX = (int) bdr.getCenterX() - radius + world.rand.nextInt(radius * 2);
             // Choose Z co-ord
-            posZ = (int) bdr.getCenterZ() + world.rand.nextInt(radius);
-            coin = world.rand.nextInt(2);
-            if (coin == 0) {
-                posZ *= -1;
-            }
+            posZ = (int) bdr.getCenterZ() - radius + world.rand.nextInt(radius * 2);
         }
 
         // Choose Y co-ord
