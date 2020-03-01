@@ -12,9 +12,19 @@ public final class ConfigHandler {
     private static String[] defaultDrop = new String[] {
             // id [rarity] [minStack] [maxStack] [nbt]
             // [optional]
-            "minecraft:apple 100",
-            "minecraft:diamond_sword 200 1 1 {display:{Lore:[\"\\\"A legendary weapon\\\"\"]}}",
-            "minecraft:saddle 12"
+            "minecraft:bone 1000 5 14",
+            "minecraft:rotten_flesh 500 3 12",
+            "minecraft:wooden_sword 300 1 1 {display:{Name:\"Cardboard Sword\"}}",
+            "minecraft:iron_nugget 300 3 7",
+            "minecraft:iron_ingot 200 1 4",
+            "minecraft:gold_nugget 200 1 5",
+            "minecraft:gold_ingot 150 1 2",
+            "minecraft:saddle 100",
+            "minecraft:diamond 100",
+            "minecraft:blaze_rod 100",
+            "minecraft:emerald 50",
+            "minecraft:enchanted_book 15 1 1 {ench:[{id:32,lvl:5}],display:{Name:\"A Memoir of Speed\"}}",
+            "minecraft:diamond_pickaxe 10 1 1 {ench:[{id:33,lvl:1}]}"
     };
 
     public static ArrayList<DropLoot> dropContents = new ArrayList<>();
