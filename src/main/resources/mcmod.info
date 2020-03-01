@@ -2,13 +2,13 @@
 {
   "modid": "drops",
   "name": "Drops",
-  "description": "A Minecraft mod, allows for "drops" to be spawned in the world at a configurable interval containing a configurable set of items.",
+  "description": "A Minecraft mod, allows for 'drops' to be spawned in the world at a configurable interval containing a configurable set of items.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://github.com/mikaelsrozee/drops",
   "updateUrl": "",
   "authorList": ["msrcodes"],
-  "credits": "",
+  "credits": "My Twitch followers for watching me make this mod!",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
