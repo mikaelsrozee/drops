@@ -42,7 +42,7 @@ public class DropHandler extends WorldSavedData {
             if (world.provider.getDimension() == 0) {
                 int time = (int) (world.getWorldTime() % 24000);
 
-                if (ConfigHandler.shouldBeacon && dropActive && dropPos != null && world.getWorldTime() % 40 == 0) {
+                if (ConfigHandler.shouldBeam && dropActive && dropPos != null && world.getWorldTime() % 40 == 0) {
                     spawnBeam();
                 }
 
