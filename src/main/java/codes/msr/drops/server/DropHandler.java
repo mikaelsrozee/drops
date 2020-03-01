@@ -114,7 +114,11 @@ public class DropHandler extends WorldSavedData {
 
     private BlockPos findDropPosition(World world) {
         WorldBorder bdr = world.getWorldBorder();
+
         int radius = (int) bdr.getDiameter() / 2;
+        if (bdr.getDiameter() == 6.0E7D) {
+            radius = ConfigHandler.radius;
+        }
 
         int posX, posZ;
         if (radius == 0) {

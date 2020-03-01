@@ -32,6 +32,7 @@ public final class ConfigHandler {
     public static boolean shouldLightning = true;
     public static boolean shouldBeam = true;
     public static boolean shouldDespawn = true;
+    public static int radius = 2000;
 
     public static void loadConfig(File configFile) {
         config = new Configuration(configFile);
@@ -65,6 +66,9 @@ public final class ConfigHandler {
 
         desc = "Should the drop despawn at sunrise if it has not been opened or destroyed prior?";
         shouldDespawn = config.getBoolean("shouldDespawn", "drops", shouldDespawn, desc);
+
+        desc = "If there is no world border set, from what radius of world spawn should drops spawn?";
+        radius = config.getInt("radius", "drops", radius, 10, Integer.MAX_VALUE, desc);
 
         config.save();
     }
