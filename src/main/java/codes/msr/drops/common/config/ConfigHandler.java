@@ -19,6 +19,9 @@ public final class ConfigHandler {
 
     public static ArrayList<DropLoot> dropContents = new ArrayList<>();
     public static int daysPerDrop = 7;
+    public static boolean shouldLightning = true;
+    public static boolean shouldBeacon = true;
+    public static boolean shouldDespawn = true;
 
     public static void loadConfig(File configFile) {
         config = new Configuration(configFile);
@@ -43,6 +46,15 @@ public final class ConfigHandler {
 
         desc = "Number of days until a drop spawns";
         daysPerDrop = config.getInt("daysPerDrop", "drops", daysPerDrop,0, 100, desc);
+
+        desc = "Should lightning spawn when the drop spawns?";
+        shouldLightning = config.getBoolean("shouldLightning", "drops", shouldLightning, desc);
+
+        desc = "Should a beacon spawn above the drop?";
+        shouldBeacon = config.getBoolean("shouldBeacon", "drops", shouldBeacon, desc);
+
+        desc = "Should the drop despawn at sunrise if it has not been opened or destroyed prior?";
+        shouldDespawn = config.getBoolean("shouldDespawn", "drops", shouldDespawn, desc);
 
         config.save();
     }

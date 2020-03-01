@@ -42,11 +42,11 @@ public class DropHandler extends WorldSavedData {
             if (world.provider.getDimension() == 0) {
                 int time = (int) (world.getWorldTime() % 24000);
 
-                if (dropActive && dropPos != null && world.getWorldTime() % 40 == 0) {
+                if (ConfigHandler.shouldBeacon && dropActive && dropPos != null && world.getWorldTime() % 40 == 0) {
                     spawnBeam();
                 }
 
-                if (dropActive && dropPos != null && time == 0) {
+                if (ConfigHandler.shouldDespawn && dropActive && dropPos != null && time == 0) {
                     alertDrop(world, dropPos, "despawned", TextFormatting.DARK_RED);
                     world.removeTileEntity(dropPos);
                     world.setBlockToAir(dropPos);
@@ -147,7 +147,9 @@ public class DropHandler extends WorldSavedData {
     }
 
     private void spawnDrop(World world, BlockPos pos) {
-        world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), true));
+        if (ConfigHandler.shouldLightning) {
+            world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), true));
+        }
 
         world.setBlockState(pos, Blocks.CHEST.getDefaultState());
 
