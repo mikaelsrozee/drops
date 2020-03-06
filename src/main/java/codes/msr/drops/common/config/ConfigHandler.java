@@ -37,6 +37,8 @@ public final class ConfigHandler {
     public static boolean shouldDespawn = true;
     public static int radius = 2000;
 
+    private static String[] load;
+
     public static void loadConfig(File configFile) {
         config = new Configuration(configFile);
 
@@ -55,8 +57,7 @@ public final class ConfigHandler {
                       "'item' is the only required parameter.\n" +
                       "If 'minStackSize' is present so must 'maxStackSize'.\n" +
                       "If 'nbtJSON' is present, all other parameters must be present.\n";
-        String[] load = config.getStringList("dropContents", "drops", defaultDrop, desc);
-        parse(load);
+        load = config.getStringList("dropContents", "drops", defaultDrop, desc);
 
         desc = "Number of days until a drop spawns";
         daysPerDrop = config.getInt("daysPerDrop", "drops", daysPerDrop,0, 100, desc);
@@ -76,8 +77,8 @@ public final class ConfigHandler {
         config.save();
     }
 
-    private static void parse(String[] list) {
-        for (String string : list) {
+    public static void parse() {
+        for (String string : load) {
             String[] split = string.split(" ");
 
             ResourceLocation id = new ResourceLocation(split[0]);

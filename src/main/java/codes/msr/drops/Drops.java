@@ -6,6 +6,7 @@ import codes.msr.drops.server.DropEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
@@ -16,6 +17,11 @@ public class Drops {
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new DropEventHandler());
         ConfigHandler.loadConfig(event.getSuggestedConfigurationFile());
+    }
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        ConfigHandler.parse();
     }
 
     @EventHandler
