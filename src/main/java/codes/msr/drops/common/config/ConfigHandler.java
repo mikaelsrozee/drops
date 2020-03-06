@@ -1,7 +1,10 @@
 package codes.msr.drops.common.config;
 
 import codes.msr.drops.server.DropLoot;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,6 +79,15 @@ public final class ConfigHandler {
     private static void parse(String[] list) {
         for (String string : list) {
             String[] split = string.split(" ");
+
+            ResourceLocation id = new ResourceLocation(split[0]);
+            Item item = ForgeRegistries.ITEMS.getValue(id);
+
+            System.out.println(id + " >>> " + item);
+
+            if (item == null) {
+                throw new Error("Could not find matching item for '" + split[0] + "'.");
+            }
 
             if (split.length == 1) { // [id]
                 dropContents.add(new DropLoot(split[0]));
